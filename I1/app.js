@@ -2,14 +2,26 @@ class Product {
   constructor(sku, title, description, stockAmount, price) {
     this.sku = sku;
     this.title = title;
-    this.desription = desription;
+    this.description = description;
     this.stockAmount = stockAmount;
     this.price = price;
   }
 
   get = () => {
-    return;
-  };
+    return {
+      sku: this.sku,
+      title: this.title,
+      desription: this.description, 
+      stockAmount: this.stockAmount,
+      price: this.price
+      }
+  }
+
+   changeStock(change) {
+    this.stockAmount =   this.stockAmount + change;
+  }
+
+  r
 }
 
 class Toys extends Product {
@@ -122,7 +134,13 @@ class Customer {
   }
 
     buy() {
-      this.cart.forEach( a => a.):
+    
+    this.cart.getCart().forEach( a => {
+     //this.setOrderHistory()
+    // a.sku qty price
+    console.log(a.sky)
+
+    })
 
     //minska lager
     // lägg till order obj
@@ -140,8 +158,11 @@ blackTShirt = new Clothes(
   "Lorum ipsum dolor",
   5,
   99,
-  L
+  'L'
 );
+
+console.log(blackTShirt.get());
+console.log( (new Date()).toLocaleString("se-SE"))
 
 //Create Customer
 
