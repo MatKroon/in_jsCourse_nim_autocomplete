@@ -5,6 +5,8 @@ class Product {
     this.description = description;
     this.stockAmount = stockAmount;
     this.price = price;
+
+    stock.addProduct(sku, stockAmount);
   }
 
   get = () => {
@@ -18,10 +20,9 @@ class Product {
   }
 
    changeStock(change) {
-    this.stockAmount =   this.stockAmount + change;
+     this.stockAmount =   this.stockAmount - change;
   }
 
-  r
 }
 
 class Toys extends Product {
@@ -38,7 +39,7 @@ class Clothes extends Product {
   constructor(sku, title, description, stockAmount, price, size) {
     super(sku, title, description, stockAmount, price);
     this.size = size;
-    stock.addProduct(sku, stockAmount);
+  
   }
 }
 
@@ -56,7 +57,7 @@ class Stock {
 
   changeStock(sku, change) {
     stockItem = this.stock.find((a) => a.sku === sku);
-    stockItem.stockAmount = stockItem.stockItem + change;
+    stockItem.stockAmount = stockItem.stockItem - change;
   }
   getStock(sku) {
     console.log(this.stock.find((a) => a.sku === sku).stockAmount);
@@ -74,17 +75,16 @@ class Cart {
   // Varukorgen ska ha en metod för att räkna ihop summan av värdet av alla produkter i korgen.
   // Varukorgen ska ha metoder för att lägga till och ta bort produkter i varukorgen.
 
-  constructor(customerId) {
+  constructor() {
     this.productList = [];
-    this.customerId = customerId;
   }
 
-  addProduct(sku, qty, price) {
-    if (!this.productList.find((a) => a.sku === sku)) {
-      this.productList.push({ sku, qty, price });
+  addProduct(product, qty) {
+    if (!this.productList.find((a) => a.sku === product.sku)) {
+      this.productList.push({ product, qty });
     } else {
       newQty = this.productList.find((a) => a.sku === sku).qty + qty;
-      changeAmount(sku, newQty);
+      changeAmount(product, newQty);
     }
   }
 
@@ -99,7 +99,7 @@ class Cart {
     }
   }
 
-  changeAmount(sku, newAmount) {
+  changeAmount(product, newAmount) {
     this.productList.find((a) => a.sku === sku).qty = newAmount;
   }
   getCart() {
@@ -133,12 +133,21 @@ class Customer {
     this.orderHistory.push({ sku, amount, date });
   }
 
+  addToCart(product, qty) {
+
+  }
+
     buy() {
-    
+    console.log(this.cart.getCart())
     this.cart.getCart().forEach( a => {
-     //this.setOrderHistory()
+     
+     
+    this.setOrderHistory(a.product.sku, 3, (new Date()).toLocaleString("se-SE"))
+      a.product.changeStock(a.qty)
+      stock.changeStock(a.product.sku, a.qty)
+
     // a.sku qty price
-    console.log(a.sky)
+    //console.log(a.product.sku)
 
     })
 
@@ -161,9 +170,33 @@ blackTShirt = new Clothes(
   'L'
 );
 
-console.log(blackTShirt.get());
-console.log( (new Date()).toLocaleString("se-SE"))
 
+movie1 = new Toys(
+  "atoy123",
+  "Black T-Shirt",
+  "Lorum ipsum dolor",
+  5,
+  99,
+  12
+);
+
+// Create custoer 
+
+mattias = new Customer( 
+  'mattias'
+)
+
+mattias.cart.addProduct(movie1,2)
+mattias.cart.addProduct(blackTShirt,1)
+console.log(blackTShirt.get());
+
+console.log(stock)
+console.log(mattias.cart)
+console.log(mattias)
+mattias.buy()
+console.log(mattias.getOrderHistory())
+console.log(movie1)
+console.log(stock)
 //Create Customer
 
 // Add products to Cart
