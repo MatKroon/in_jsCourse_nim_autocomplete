@@ -1,0 +1,13 @@
+Plan/Struktur för kod
+
+Backlog:
+ - Popup för att ange namn för varje spelare
+ - Spelplan där tur visas samt val av pinnar görs samt spelet representeras grafiskt (antal pinnar på bordet)
+ - Highscore tabell
+ - popup för att säga vem som vinner
+ - slumpning av tur
+
+
+ CLASSER
+ - Game - kan hålla kolla på mer eller mindre allt.
+ - Player - som seperat class f
