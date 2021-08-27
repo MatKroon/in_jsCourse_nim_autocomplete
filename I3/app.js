@@ -19,9 +19,9 @@ input.onkeyup = (e) => {
             (data) =>
               "<li onclick=getfilm('" +
               data.imdbID +
-              "')>" +
+              "')><p>" +
               data.Title +
-              "</li>"
+              "</p></li>"
           );
 
           autocomplete.innerHTML = matches.join("");

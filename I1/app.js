@@ -13,16 +13,15 @@ class Product {
     return {
       sku: this.sku,
       title: this.title,
-      desription: this.description, 
+      desription: this.description,
       stockAmount: this.stockAmount,
-      price: this.price
-      }
-  }
+      price: this.price,
+    };
+  };
 
-   changeStock(change) {
-     this.stockAmount =   this.stockAmount - change;
+  changeStock(change) {
+    this.stockAmount = this.stockAmount - change;
   }
-
 }
 
 class Toys extends Product {
@@ -39,7 +38,6 @@ class Clothes extends Product {
   constructor(sku, title, description, stockAmount, price, size) {
     super(sku, title, description, stockAmount, price);
     this.size = size;
-  
   }
 }
 
@@ -56,25 +54,19 @@ class Stock {
   }
 
   changeStock(sku, change) {
-    stockItem = this.stock.find((a) => a.sku === sku);
-    stockItem.stockAmount = stockItem.stockItem - change;
+    let stockItem = this.stock.find((a) => a.sku === sku);
+    stockItem.stockAmount = stockItem.stockAmount - change;
   }
   getStock(sku) {
     console.log(this.stock.find((a) => a.sku === sku).stockAmount);
     return this.stock.find((a) => a.sku === sku).stockAmount;
   }
   inventorize() {
-    console.log(this.stock);
     return this.stock;
   }
 }
 
 class Cart {
-  //     Det ska finnas en varukorg som innehåller 0-n produkter. Varukorgen ska höra ihop med en kund.
-  // Varukorgen ska ha en metod för att skriva ut innehållet i korgen.
-  // Varukorgen ska ha en metod för att räkna ihop summan av värdet av alla produkter i korgen.
-  // Varukorgen ska ha metoder för att lägga till och ta bort produkter i varukorgen.
-
   constructor() {
     this.productList = [];
   }
@@ -103,22 +95,19 @@ class Cart {
     this.productList.find((a) => a.sku === sku).qty = newAmount;
   }
   getCart() {
-    console.log(this.productList);
     return this.productList;
   }
 
   getTotal() {
-    console.log(this.productList.forEach((a) => a.qty * a.price));
-    return this.productList.forEach((a) => a.qty * a.price);
+    let total = 0;
+    this.productList.forEach((a) => {
+      total += a.qty * a.product.price;
+    });
+    return total;
   }
 }
 
-
-
 class Customer {
-  //     Det ska finnas en kund-klass som håller reda på namn, orderhistorik och nuvarande varukorg.
-  // Det ska finnas en köp-metod som lägger till varukorgens innehåll i kundens köphistorik med datum och minskar lagervärdet på produkterna.
-
   constructor(name) {
     this.name = name;
     this.orderHistory = [];
@@ -129,31 +118,24 @@ class Customer {
     return this.orderHistory;
   }
 
-  setOrderHistory({ sku, amount, date }) {
+  setOrderHistory(sku, amount, date) {
     this.orderHistory.push({ sku, amount, date });
   }
 
-  addToCart(product, qty) {
+  addToCart(product, qty) {}
 
-  }
+  buy() {
+    this.cart.getCart().forEach((a) => {
+      this.setOrderHistory(
+        a.product.sku,
+        3,
+        new Date().toLocaleString("se-SE")
+      );
+      a.product.changeStock(a.qty);
+      stock.changeStock(a.product.sku, a.qty);
+    });
 
-    buy() {
-    console.log(this.cart.getCart())
-    this.cart.getCart().forEach( a => {
-     
-     
-    this.setOrderHistory(a.product.sku, 3, (new Date()).toLocaleString("se-SE"))
-      a.product.changeStock(a.qty)
-      stock.changeStock(a.product.sku, a.qty)
-
-    // a.sku qty price
-    //console.log(a.product.sku)
-
-    })
-
-    //minska lager
-    // lägg till order obj
-    // set cart to null
+    this.cart = new Cart();
   }
 }
 
@@ -162,47 +144,41 @@ stock = new Stock();
 
 // Create a few prodcuts
 blackTShirt = new Clothes(
-  "abc123",
+  "abc1",
   "Black T-Shirt",
   "Lorum ipsum dolor",
   5,
   99,
-  'L'
+  "L"
 );
 
+movie1 = new Toys("abc2", "Plastanka", "Lorum ipsum dolor", 100, 49, 3);
 
-movie1 = new Toys(
-  "atoy123",
-  "Black T-Shirt",
+greenHoodie = new Clothes(
+  "abc3",
+  "Green Hoodie",
   "Lorum ipsum dolor",
-  5,
-  99,
-  12
+  10,
+  249,
+  "SL"
 );
 
-// Create custoer 
+// Create customer
+mattias = new Customer("mattias");
 
-mattias = new Customer( 
-  'mattias'
-)
+// Add som products to Mattias cart
+mattias.cart.addProduct(movie1, 2);
+mattias.cart.addProduct(blackTShirt, 1);
 
-mattias.cart.addProduct(movie1,2)
-mattias.cart.addProduct(blackTShirt,1)
-console.log(blackTShirt.get());
+//check that total is working properly
+console.log(mattias.cart.getTotal());
 
-console.log(stock)
-console.log(mattias.cart)
-console.log(mattias)
-mattias.buy()
-console.log(mattias.getOrderHistory())
-console.log(movie1)
-console.log(stock)
-//Create Customer
+// Buy what is in cart - cart is set to empty
+mattias.buy();
 
-// Add products to Cart
+//console log stock and products to see that stock is infact updating
+console.log(stock.inventorize());
+console.log(movie1.get());
 
-// Buy prodcuts
-
-//Get stock
-
-// Get orders
+//Consoloe log to see that order history is working
+console.log(mattias.getOrderHistory());

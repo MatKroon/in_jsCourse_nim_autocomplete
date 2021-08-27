@@ -14,29 +14,121 @@
       crossorigin="anonymous"
     />
 
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <section id="startGame"></section>
-    <section class="highscore">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Namn</th>
-            <th scope="col">Poäng</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>20</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <div class="grid">
+      <section class="item" id="startGame">
+        <!-- two dropdown select plauer 1 and 2
+      button start game  -->
+        <h2>Select Players:</h2>
+        <div class="select">
+          <div class="item-select">
+            <label for="selectPlayerOne">Player 1:</label>
+            <select id="selectPlayerOne" class="form-select">
+              <option>Select a player</option>
+            </select>
+          </div>
+          <div class="item-select">
+            <label for="selectPlayerTwo">Player 2:</label>
+            <select id="selectPlayerTwo" class="form-select">
+              <option>Select a player</option>
+            </select>
+          </div>
+        </div>
 
+        <button
+          onclick="startGame()"
+          type="button"
+          class="btn btn-outline-dark btn-lg"
+        >
+          Start Game!
+        </button>
+      </section>
+
+      <section class="item" id="game">
+        <h2 id="selectedPlayer"></h2>
+        <select onchange="makeMove()" id="makeMove" class="form-select">
+          <option value="start" selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option id="s2" value="2">Two</option>
+          <option id="s3" value="3">Three</option>
+        </select>
+        <div id="sticksRepresentation"></div>
+      </section>
+
+      <section class="item" id="addPlayer">
+        <h3>Add Player</h3>
+        <div class="input-group mb-3">
+          <input
+            id="addPlayerInput"
+            type="text"
+            class="form-control"
+            placeholder="Player Name"
+          />
+          <button
+            onclick="addPlayer()"
+            class="btn btn-outline-secondary"
+            type="button"
+            id="button-addon2"
+          >
+            Add
+          </button>
+        </div>
+      </section>
+
+      <section class="item" id="highscore">
+        <h3>Highscores</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Namn</th>
+              <th scope="col">Poäng</th>
+            </tr>
+          </thead>
+          <tbody id="fillScores"></tbody>
+        </table>
+      </section>
+    </div>
     <script src="app.js" async defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
   </body>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="myModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">...</div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </html>
