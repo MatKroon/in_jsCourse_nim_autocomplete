@@ -1,11 +1,3 @@
-// NIM game
-
-// CLASSES NEEDED
-
-// Players
-// Stack
-//
-
 class Game {
   constructor() {
     this.highScores = [];
@@ -72,10 +64,7 @@ class Game {
     document.querySelector("#fillScores").innerHTML = highScoresMapedString;
 
     this.resetGame();
-
-    document.querySelector("#myModal").modal("show");
-
-    // restart the game to the top...
+    swal(`Grattis ${player.name} `, "Du vann!", "success");
   }
 
   setPlayerOne(player) {
