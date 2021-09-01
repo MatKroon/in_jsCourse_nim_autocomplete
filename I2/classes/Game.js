@@ -1,19 +1,80 @@
 class Game {
-  constructor() {
+  constructor(selectPlayerOne, selectPlayerTwo, selectMove, elementSticks, blockHighScore, blockStartGame, blockAddPlayer, blockGame, elementAddPlayer) {
+    this.selectPlayerOne = selectPlayerOne;
+    this.selectPlayerTwo = selectPlayerTwo;
+    this.selectMove = selectMove;
+    this.elementSticks = elementSticks;
+    this.blockHighScore = blockHighScore;
+    this.blockStartGame = blockStartGame;
+    this.blockAddPlayer = blockAddPlayer;
+    this.blockGame = blockGame;
+    this.elementAddPlayer = elementAddPlayer;
+
+
     this.highScores = [];
+    this.players = [];
     this.playerOne = null;
     this.playerTwo = null;
     this.stack = 21;
     this.turn = Math.floor(Math.random() * 2) + 1;
+
     //player in turn
     // highscore
   }
+
+
+
+  startGame() {
+    if (this.selectPlayerOne.value == this.selectPlayerTwo.value) {
+      alert("Player 1 and Player 2 cant be the same player");
+      return;
+    }
+
+    this.playerOne = this.selectPlayerOne.value;
+    this.playerTwo = this.selectPlayerTwo.value;
+
+    this.blockStartGame.style.display = "none";
+    this.blockAddPlayer.style.display = "none";
+    this.blockHighScore.style.display = "none";
+    this.blockGame.style.display = "block";
+
+    document.querySelector("#selectedPlayer").innerHTML = this
+      .getTurn()
+      .getName();
+
+    let sticks = [];
+    for (let n = 0; n < this.getCurrentStack(); n++) {
+      sticks.push(`<img style="width:10px;" src="img/stick.svg" />`);
+    }
+
+    this.elementSticks.innerHTML = sticks.join("");
+  }
+
+  addPlayer() {
+    this.players.push(new Player(this.elementAddPlayer.value));
+    var name = this.elementAddPlayer.value;
+    var option = document.createElement("option");
+    var option2 = document.createElement("option");
+    option.text = name;
+    option2.text = name;
+
+    option.value = n;
+    option2.value = n;
+
+    n += 1;
+    this.selectPlayerOne.add(option);
+    this.selectPlayerOTwo.add(option2);
+
+    this.elementAddPlayer.value = "";
+  }
+
+
 
   getCurrentStack() {
     return this.stack;
   }
 
-  makeMove(n) {
+  static makeMove(n) {
     this.stack -= n;
     if (this.stack == 0) {
       if (this.turn == 1) {
@@ -67,11 +128,11 @@ class Game {
     swal(`Grattis ${player.name} `, "Du vann!", "success");
   }
 
-  setPlayerOne(player) {
+  static setPlayerOne(player) {
     this.playerOne = player;
   }
 
-  setPlayerTwo(player) {
+  static setPlayerTwo(player) {
     this.playerTwo = player;
   }
 
@@ -98,7 +159,7 @@ class Player {
 }
 
 // ----------------------------------------------------------------
-game = new Game();
+
 
 let players = [];
 let n = 0;
@@ -110,52 +171,8 @@ input.addEventListener("keyup", function (event) {
   }
 });
 
-function addPlayer() {
-  players.push(new Player(document.querySelector("#addPlayerInput").value));
-  var name = document.querySelector("#addPlayerInput").value;
-  var option = document.createElement("option");
-  var option2 = document.createElement("option");
-  option.text = name;
-  option2.text = name;
 
-  option.value = n;
-  option2.value = n;
 
-  n += 1;
-  document.querySelector("#selectPlayerOne").add(option);
-  document.querySelector("#selectPlayerTwo").add(option2);
-
-  document.querySelector("#addPlayerInput").value = "";
-}
-
-function startGame() {
-  let playerOne = document.querySelector("#selectPlayerOne").value;
-  let playerTwo = document.querySelector("#selectPlayerTwo").value;
-
-  if (playerOne == playerTwo) {
-    alert("Player 1 and Player 2 cant be the same player");
-    return;
-  }
-
-  game.setPlayerOne(players[playerOne]); // need to find player based on name/index?
-  game.setPlayerTwo(players[playerTwo]);
-
-  document.querySelector("#startGame").style.display = "none";
-  document.querySelector("#addPlayer").style.display = "none";
-  document.querySelector("#highscore").style.display = "none";
-  document.querySelector("#game").style.display = "block";
-
-  document.querySelector("#selectedPlayer").innerHTML = game
-    .getTurn()
-    .getName();
-
-  let sticks = [];
-  for (let n = 0; n < game.getCurrentStack(); n++) {
-    sticks.push(`<img style="width:10px;" src="img/stick.svg" />`);
-  }
-
-  document.querySelector("#sticksRepresentation").innerHTML = sticks.join("");
-}
 
 function makeMove() {
   game.makeMove(document.querySelector("#makeMove").value);
@@ -181,6 +198,11 @@ function makeMove() {
       .getName();
   }
 }
+
+function startGame() {
+  game.getCurrentStack();
+}
+
 
 // mattias = new Player("mattias");
 // ira = new Player("ira");
