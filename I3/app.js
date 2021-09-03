@@ -1,7 +1,3 @@
-// http://www.omdbapi.com/?s=pulp&apikey=17e21a79
-
-let suggestions = ["fefef", "wefwefwef", "weifjiejf"];
-
 const input = document.querySelector("input");
 const autocomplete = document.querySelector("#autocomplete");
 
@@ -16,18 +12,11 @@ input.onkeyup = (e) => {
         if (typeof data.Search !== "undefined") {
           let serachRes = data.Search.slice(0, 10); //API returns 10 so not needed but in the case of unlimited returns this would limit the result to 10. Best would be to limit in API request to speed up serive.
           let matches = serachRes.map(
-            (data) =>
-              "<li onclick=getfilm('" +
-              data.imdbID +
-              "')><p>" +
-              data.Title +
-              "</p></li>"
+            (data) => "<li onclick=getfilm('" + data.imdbID + "')><p>" + data.Title + "</p></li>"
           );
-
           autocomplete.innerHTML = matches.join("");
         } else {
-          autocomplete.innerHTML =
-            '<li class="no-res"><p>Inget resultat<p><li>';
+          autocomplete.innerHTML = '<li class="no-res"><p>Inget resultat<p><li>';
         }
       });
   } else {
@@ -56,5 +45,3 @@ const getfilm = (id) => {
         `;
     });
 };
-
-//make possible to use arrows to reach serach result
